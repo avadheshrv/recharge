@@ -36,7 +36,7 @@
                         @if($user_role == "admin" || $user_role == "sub-admin"  || $user_role == "master-distributer" || $user_role == "super-distributer" || $user_role == "distributer" || $user_role == "retailer") 
 
                             <div class="add_btn">
-                                <a href="" class="btn-sm btn-info no-radius">Add Customer</a>
+                                <a href="{{ route('add-customer') }}" class="btn-sm btn-info no-radius">Add Customer</a>
                             </div>
                         @endif
                         
