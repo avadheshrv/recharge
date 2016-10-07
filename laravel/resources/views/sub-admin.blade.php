@@ -87,7 +87,7 @@
                                             <td>{{ $user->name }}</td>
                                             <td>{{ $user->email }}</td>
                                             <td class="hidden-480">{{ $user->role }}</td>
-                                            <td>Feb 12</td>
+                                            <td>{{ $user->updated_at }}</td>
                                              <td class="hidden-480">
                                                 <span class="label label-sm label-warning">Expiring</span>
                                             </td>

@@ -46,18 +46,18 @@ header section -->
                     <?php $user_role = Auth::user()->role; ?>
                     
                     @if($user_role == "admin")
-                    <li class="active">
+                    <li>
                         <a href="{{ URL::to('/admin/dashboard') }}"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
                     </li>
                     
-                    <li class="active">
+                    <li>
                         <a href="{{ URL::to('/admin/users') }}"><i class="fa fa-fw fa-user"></i>All Users</a>
                     </li>
                     @endif
 
                     @if($user_role == "admin" || $user_role == "sub-admin")
                    
-                    <li>
+                    <li class="active">
                         <a href="{{ URL::to('/admin/sub-admin') }}"><i class="fa fa-fw fa-user-md"></i> Sub-admin</a>
                     </li>
 

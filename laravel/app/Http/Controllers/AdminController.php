@@ -16,9 +16,8 @@ class AdminController extends Controller
      * @return void
      */
     use RegistersUsers;
-    protected $redirectTo = '/admin/sub-admin';
-
-
+   
+   
     public function __construct()
     {
         $this->middleware('auth');
@@ -27,13 +26,13 @@ class AdminController extends Controller
   
     protected function SubAdminValidate(Request $request)
     {
-        $rules = array(
+        $rules = [
             'name' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|min:6|confirmed',
             'password' => 'required|min:6|confirmed',
-        );
-          $this->validate( $request , $rules);
+        ];
+        return Validator::make($request->all(), $rules);
     }
 
     /**
@@ -49,20 +48,36 @@ class AdminController extends Controller
     public function users()
     {
         $users = User::all();
-        return view('admin-users', ['users' => $users] );
+        $user_role = Auth::user()->role;
+        if($user_role=='admin'){
+            return view('admin-users', ['users' => $users] );
+        }
+        else{
+             return redirect()->back();
+        }
     }
 
     public function subAdmin()
     {
         $users = User::where('role','sub-admin')->get();
-        return view('sub-admin', ['users' => $users]);
+        $user_role = Auth::user()->role;
+        if($user_role=='admin' || $user_role=='sub-admin'){
+            return view('sub-admin', ['users' => $users]);
+        }
+        else{
+            return redirect()->back();
+        } 
     }
 
     public function AddSubAdmin()
     {
-
-        $users = User::where('role','admin')->get();
-        return view('auth.add-sub-admin', ['message' =>'']);
+        $user_role = Auth::user()->role;
+        if($user_role=='admin'){
+            return view('auth.add-sub-admin', ['message' =>'']);    
+        }
+        else{
+            return redirect()->back();
+        }     
     }
 
     protected function SaveSubAdmin(Request $request)
@@ -71,8 +86,7 @@ class AdminController extends Controller
         $validator = $this->SubAdminValidate($request);
 
         if( $validator->passes() ){
-            echo "string";
-            echo die();
+
             User::create([
                 'name'          => $request['name'],
                 'email'         => $request['email'],
@@ -80,11 +94,11 @@ class AdminController extends Controller
                 'role'          => 'sub-admin'
             ]);
             // $users = User::where('role','admin')->get();
-            $message ="<strong>Congratulations!</strong>Sub admin has been succesfully added";
+            $message ="Congratulations! Sub admin has been succesfully added";
             return view('auth.add-sub-admin', ['message' => $message] );
         }
         else{
-            return redirect()->back()->withErrors();
+            return redirect()->back()->withInput()->withErrors($validator);
         }
     }
 }
