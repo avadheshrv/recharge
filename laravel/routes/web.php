@@ -47,6 +47,22 @@ Route::get('/admin/add-subadmin', 'AdminController@AddSubAdmin');
 
 Route::post('/admin/add-subadmin', 'AdminController@SaveSubAdmin');
 
+Route::get('/admin/add-master-distributer', 'DistributerController@AddMasterDistributer');
+
+Route::post('/admin/add-master-distributer', 'DistributerController@SaveMasterDistributer');
+
+Route::get('/admin/add-super-distributer', 'DistributerController@AddSuperDistributer');
+
+Route::post('/admin/add-super-distributer', 'DistributerController@SaveSuperDistributer');
+
+Route::get('/admin/add-distributer', 'DistributerController@AddDistributer');
+
+Route::post('/admin/add-distributer', 'DistributerController@SaveDistributer');
+
+Route::get('/admin/add-retailer', 'RetailerController@AddRetailer');
+
+Route::post('/admin/add-retailer', 'RetailerController@SaveRetailer');
+
 
 //Auth::routes();
 

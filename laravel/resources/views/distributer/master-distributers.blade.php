@@ -36,7 +36,7 @@
                          <?php $user_role = Auth::user()->role; ?>
                          @if($user_role == "admin" || $user_role == "sub-admin") 
                             <div class="add_btn">
-                                <a href="" class="btn-sm btn-info no-radius">Add Master Distributer</a>
+                                <a href="{{ url('/admin/add-master-distributer') }}" class="btn-sm btn-info no-radius">Add Master Distributer</a>
                             </div>
                         @endif 
 
@@ -87,7 +87,7 @@
                                             <td>{{ $user->name }}</td>
                                             <td>{{ $user->email }}</td>
                                             <td class="hidden-480">{{ $user->role }}</td>
-                                            <td>Feb 12</td>
+                                            <td>{{ $user->updated_at }}</td>
                                              <td class="hidden-480">
                                                 <span class="label label-sm label-warning">Expiring</span>
                                             </td>

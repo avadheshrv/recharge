@@ -12,7 +12,7 @@
                         <a href="{{ URL::to('/admin/dashboard') }}">Home</a>
                     </li>
 
-                    <li class="active">add-sub-admin</li>
+                    <li class="active">add-super-distributer</li>
                 </ul><!-- /.breadcrumb -->
             </div>
             <div class="page-content">
@@ -25,9 +25,9 @@
                             </div>
                         @endif
                         <div class="panel panel-default">
-                            <div class="panel-heading">Add Sub admin</div>
+                            <div class="panel-heading">Add Super Distributer</div>
                             <div class="panel-body">
-                                <form class="form-horizontal" role="form" method="POST" action="{{ url('/admin/add-subadmin') }}">
+                                <form class="form-horizontal" role="form" method="POST" action="{{ url('/admin/add-super-distributer') }}">
                                     {{ csrf_field() }}
 
                                     <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
