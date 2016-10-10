@@ -29,6 +29,19 @@
             <div class="page-content">
                 <div class="row">
                     <div class="col-xs-12">
+                        
+                        @if ($flash_data['status'] === 1)
+                            <div class="alert alert-success fade in" style="margin-top:18px;">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
+                            {{ $flash_data['message']}}
+                            </div>
+                        @elseif($flash_data['status'] === 0)
+                            <div class="alert alert-danger fade in" style="margin-top:18px;">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
+                            {{ $flash_data['message']}}
+                            </div>
+                        @endif
+                        
                         <div class="left_head">
                             <h3 class="header smaller lighter blue">Customers</h3>
                         </div>
@@ -95,11 +108,11 @@
                                             <td>
                                             <div class="hidden-sm hidden-xs action-buttons">
                                                
-                                                <a class="green" href="#">
+                                                <a class="green" href="{{ route('edit-customer', ['id' => $user->id]) }}">
                                                     <i class="ace-icon fa fa-pencil bigger-130"></i>
                                                 </a>
 
-                                                <a class="red" href="#">
+                                                <a class="red" href="{{ route('delete-customer', ['id' => $user->id]) }}" onclick="return confirm('Are you sure to delete?')">
                                                     <i class="ace-icon fa fa-trash-o bigger-130"></i>
                                                 </a>
                                             </div>

@@ -23,17 +23,18 @@ class CustomerController extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() {
+    public function index(Request $request) {
         $users = User::where('role', 'general')
                 ->get();
         $user = Auth::User();
         //echo "<pre>"; print_r($user->role);exit;
-        return view('customer.customers', ['users' => $users, 'user' => $user]);
+        $flash_data = $request->session()->get('flash_data');
+        return view('customer.customers', ['users' => $users, 'user' => $user, 'flash_data' => $flash_data]);
     }
 
-    public function addCustomer() {
-        //$users = User::where('role','admin')->get();
-        return view('customer.add-customer', ['message' => '']);
+    public function addCustomer(Request $request) {
+        $flash_data = $request->session()->get('flash_data');
+        return view('customer.add-customer', ['flash_data' => $flash_data]);
     }
 
     public function saveCustomer(Request $request) {
@@ -54,20 +55,78 @@ class CustomerController extends Controller {
         $newCustomer->password = bcrypt($request['password']);
         $newCustomer->role = 'general';
         
-        $bind = [];
+        $flash_data = [];
         if($newCustomer->save()){
-            $bind['status'] = 1;
-            $bind['message'] = 'Customer was added Successfully';
+            $flash_data['status'] = 1;
+            $flash_data['message'] = 'Customer was added Successfully';
             
         } else{
-            $bind['status'] = 0;
-            $bind['message'] = 'Customer was added Successfully';
+            $flash_data['status'] = 0;
+            $flash_data['message'] = 'Oops! Error Occur while saving customer';
             
         }
-        $request->session()->flash('bind', $bind);
+        $request->session()->flash('flash_data', $flash_data);
+        return redirect()->route('add-customer');
         
+    }
+    
+    public function editCustomer($id, Request $request){
+        $customer = User::find($id);
+        $flash_data = $request->session()->get('flash_data');
+        return view('customer.edit-customer', ['customer' => $customer, 'flash_data' => $flash_data]);
         
+    }
+    
+    public function updateCustomer($id, Request $request){
+        $customer = User::find($id);
+        if($request->password){
+            $customer->name = $request->name;
+            $customer->email = $request->email;
+            $customer->password = bcrypt($request->password);
+            $validator = Validator::make($request->all(), [
+                        'name' => 'required|max:255',
+                        'email' => 'required|email|max:255|unique:users,email,'.$id,
+                        'password' => 'required|min:6|confirmed',
+                        'password' => 'required|min:6|confirmed'
+            ]);
+        } else {
+            $customer->name = $request->name;
+            $customer->email = $request->email;
+            $validator = Validator::make($request->all(), [
+                        'name' => 'required|max:255',
+                        'email' => 'required|email|max:255|unique:users,email,'.$id,
+            ]);
+        }
         
+        if ($validator->fails()) {
+            return redirect()->route('edit-customer', ['id' => $customer->id])->withErrors($validator)->withInput();
+        }
+        
+        $flash_data = [];
+        if($customer->save()){
+            $flash_data['status'] = 1;
+            $flash_data['message'] = 'Customer was updated Successfully';
+            
+        } else{
+            $flash_data['status'] = 0;
+            $flash_data['message'] = 'Oops! Error Occur while updating customer';
+            
+        }
+        $request->session()->flash('flash_data', $flash_data);
+        return redirect()->route('edit-customer', ['id' => $id]);
+    }
+    
+    public function deleteCustomer($id, Request $request){
+        $flash_data = [];
+        if(User::destroy($id)){
+            $flash_data['status'] = 1;
+            $flash_data['message'] = 'Customer was deleted Successfully';
+        }else{
+            $flash_data['status'] = 0;
+            $flash_data['message'] = 'Oops! Error occur while deleting customer';
+        }
+        $request->session()->flash('flash_data', $flash_data);
+        return redirect()->route('customers');
         
     }
 
