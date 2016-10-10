@@ -31,7 +31,7 @@ class RetailerController extends Controller
                ->get();
         $user_role = Auth::user()->role;
         if($user_role == "admin" || $user_role == "sub-admin"  || $user_role == "master-distributer" || $user_role == "super-distributer" || $user_role == "distributer" || $user_role == "retailer"){
-            return view('retailer.retailers', ['users' => $users;
+            return view('retailer.retailers', ['users' => $users]);
         }
         else{
              return redirect()->back();

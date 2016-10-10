@@ -101,4 +101,12 @@ class AdminController extends Controller
             return redirect()->back()->withInput()->withErrors($validator);
         }
     }
+
+    public function DeleteSubAdmin()
+    {
+        $user = User::find($id); 
+        $user->delete();
+        $users = User::where('role','sub-admin')->get();
+        return view('sub-admin', ['users' => $users]);             
+    }
 }

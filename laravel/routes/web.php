@@ -37,18 +37,27 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('sub-admin', 'AdminController@subAdmin');
     Route::get('add-subadmin', 'AdminController@AddSubAdmin');
     Route::post('add-subadmin', 'AdminController@SaveSubAdmin');
+    Route::post('delete-subadmin', 'AdminController@DeleteSubAdmin')->name('delete-subadmin');
     
     /** Master-distributer Route **/
     Route::get('master-distributers', 'DistributerController@masterDistributers');
+    Route::get('add-master-distributer', 'DistributerController@AddMasterDistributer');
+    Route::post('add-master-distributer', 'DistributerController@SaveMasterDistributer');
     
     /** Super-distributer Route **/
     Route::get('super-distributers', 'DistributerController@superDistributers');
+    Route::get('add-super-distributer', 'DistributerController@AddSuperDistributer');
+    Route::post('add-super-distributer', 'DistributerController@SaveSuperDistributer');
     
     /** Distributer Route **/
     Route::get('distributers', 'DistributerController@index');
+    Route::get('add-distributer', 'DistributerController@AddDistributer');
+    Route::post('add-distributer', 'DistributerController@SaveDistributer');
     
     /** Retailer Route **/
     Route::get('retailer', 'RetailerController@index');
+    Route::get('add-retailer', 'RetailerController@AddRetailer');
+    Route::post('add-retailer', 'RetailerController@SaveRetailer');
       
     /** Customer Route **/
     Route::get('customers', 'CustomerController@index');
@@ -58,24 +67,6 @@ Route::group(['prefix' => 'admin'], function () {
 
     
 });
-
-
-Route::get('/admin/add-master-distributer', 'DistributerController@AddMasterDistributer');
-
-Route::post('/admin/add-master-distributer', 'DistributerController@SaveMasterDistributer');
-
-Route::get('/admin/add-super-distributer', 'DistributerController@AddSuperDistributer');
-
-Route::post('/admin/add-super-distributer', 'DistributerController@SaveSuperDistributer');
-
-Route::get('/admin/add-distributer', 'DistributerController@AddDistributer');
-
-Route::post('/admin/add-distributer', 'DistributerController@SaveDistributer');
-
-Route::get('/admin/add-retailer', 'RetailerController@AddRetailer');
-
-Route::post('/admin/add-retailer', 'RetailerController@SaveRetailer');
-
 
 //Auth::routes();
 
