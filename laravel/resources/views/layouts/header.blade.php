@@ -93,6 +93,12 @@ header section -->
                         <a href="{{ URL::to('/admin/customers') }}"><i class="fa fa-fw fa-users"></i>Customer</a>
                     </li>
                     @endif
+
+                    @if($user_role == "admin" || $user_role == "sub-admin"  || $user_role == "master-distributer" || $user_role == "super-distributer" || $user_role == "distributer" || $user_role == "retailer") 
+                    <li>
+                        <a href="{{ route('recharge') }}"><i class="fa fa-fw fa-users"></i>Customer Recharge</a>
+                    </li>
+                    @endif
                     
                     
                 </ul>

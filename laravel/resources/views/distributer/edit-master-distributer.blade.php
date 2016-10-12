@@ -12,7 +12,7 @@
                         <a href="{{ route('dashboard') }}">Home</a>
                     </li>
 
-                    <li class="active">add-customer</li>
+                    <li class="active">edit-master-distributer</li>
                 </ul><!-- /.breadcrumb -->
             </div>
             <div class="page-content">
@@ -30,16 +30,17 @@
                             </div>
                         @endif
                         <div class="panel panel-default">
-                            <div class="panel-heading">Add Customer</div>
+                            <div class="panel-heading">Edit Master Distributer</div>
                             <div class="panel-body">
-                                <form class="form-horizontal" role="form" method="POST" action="{{ route('save-customer') }}">
+                                <form class="form-horizontal" role="form" method="POST" action="{{ route('update-master-distributer', ['id' => $masterDistributer->id]) }}">
+                                    
                                     {{ csrf_field() }}
 
                                     <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
                                         <label for="name" class="col-md-4 control-label">Name</label>
 
                                         <div class="col-md-6">
-                                            <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" required autofocus>
+                                            <input id="name" type="text" class="form-control" name="name" value="{{ old('name', $masterDistributer['name']) }}" required autofocus>
 
                                             @if ($errors->has('name'))
                                                 <span class="help-block">
@@ -53,7 +54,7 @@
                                         <label for="email" class="col-md-4 control-label">E-Mail Address</label>
 
                                         <div class="col-md-6">
-                                            <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required>
+                                            <input id="email" type="email" class="form-control" name="email" value="{{ old('email', $masterDistributer['email']) }}" required>
 
                                             @if ($errors->has('email'))
                                                 <span class="help-block">
@@ -63,11 +64,22 @@
                                         </div>
                                     </div>
 
+                                    <div class="form-group">
+                                        <label for="is_active" class="col-md-4 control-label">Status</label>
+
+                                        <div class="col-md-6">
+                                            <select id="is_active" name="is_active" class="form-control">
+                                                <option value="1" @if($masterDistributer['is_active'] == 1) selected="selected" @endif>Active</option>
+                                                <option value="0" @if($masterDistributer['is_active'] == 0) selected="selected" @endif>Deactive</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    
                                     <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                                         <label for="password" class="col-md-4 control-label">Password</label>
 
                                         <div class="col-md-6">
-                                            <input id="password" type="password" class="form-control" name="password" required>
+                                            <input id="password" type="password" class="form-control" name="password">
 
                                             @if ($errors->has('password'))
                                                 <span class="help-block">
@@ -81,7 +93,7 @@
                                         <label for="password-confirm" class="col-md-4 control-label">Confirm Password</label>
 
                                         <div class="col-md-6">
-                                            <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
+                                            <input id="password-confirm" type="password" class="form-control" name="password_confirmation">
 
                                             @if ($errors->has('password_confirmation'))
                                                 <span class="help-block">
@@ -94,7 +106,7 @@
                                     <div class="form-group">
                                         <div class="col-md-6 col-md-offset-4">
                                             <button type="submit" class="btn btn-primary">
-                                                Register
+                                                Update
                                             </button>
                                         </div>
                                     </div>

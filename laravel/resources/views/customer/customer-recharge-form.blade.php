@@ -18,7 +18,7 @@
             <div class="page-content">
                 <div class="row">
                     <div class="col-md-8 col-md-offset-2">
-                        @if ($flash_data['status'] === 1)
+                       <!--  @if ($flash_data['status'] === 1)
                             <div class="alert alert-success fade in" style="margin-top:18px;">
                             <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
                             {{ $flash_data['message']}}
@@ -28,7 +28,7 @@
                             <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
                             {{ $flash_data['message']}}
                             </div>
-                        @endif
+                        @endif -->
                         <div class="panel panel-default">
                             <div class="panel-heading">Add Customer</div>
                             <div class="panel-body">

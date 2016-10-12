@@ -13,7 +13,7 @@
                         <a href="{{ URL::to('/admin/dashboard') }}">Home</a>
                     </li>
 
-                    <li class="active">Sub-admin List</li>
+                    <li class="active">Customers List</li>
                 </ul><!-- /.breadcrumb -->
 
                 <div class="nav-search" id="nav-search">
@@ -29,37 +29,16 @@
             <div class="page-content">
                 <div class="row">
                     <div class="col-xs-12">
-                        @if(Session::has('message'))
-                            @if(Session::has('status'))
-                            <div class="alert alert-success fade in" style="margin-top:18px;">
-                                <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
-                            {!! Session::get('message') !!}
-                            </div>
-                            @else
-
-                            <div class="alert alert-danger fade in">
-                                <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
-                                {!! Session::get('message') !!}
-                            </div>
-                            @endif
-                        @endif
-
+                        
                         <div class="left_head">
-                            <h3 class="header smaller lighter blue">Sub-admin</h3>
+                            <h3 class="header smaller lighter blue">Customers</h3>
                         </div>
-
-                        <?php $user_role = Auth::user()->role; ?>
-                        @if($user_role == "admin") 
-                            <div class="add_btn">
-                                <a href="{{ url('/admin/add-subadmin') }}" class="btn-sm btn-info no-radius">Add Sub-admin</a>
-                            </div>
-                        @endif 
-
+                        
                         <div class="clearfix">
                             
                         </div>
                         <div class="table-header">
-                            Registered Sub-admin
+                            Recharge Customers
                         </div>
 
                         <!-- div.table-responsive -->
@@ -77,16 +56,15 @@
                                         </th>
                                         <th>Name</th>
                                         <th>Email</th>
-                                        <th class="hidden-480">Group</th>
+                                        <th class="hidden-480">Current Points</th>
 
                                         <th>
                                             <i class="ace-icon fa fa-clock-o bigger-110 hidden-480"></i>
-                                            Update
+                                            Last Recharge
                                         </th>
                                         <th class="hidden-480">Status</th>
 
                                         <th></th>
-
                                     </tr>
                                 </thead>
 
@@ -114,19 +92,11 @@
 
                                             <td>
                                             <div class="hidden-sm hidden-xs action-buttons">
-                                                <a class="blue" href="#">
-                                                    <i class="ace-icon fa fa-search-plus bigger-130"></i>
+                                               
+                                                <a class="green" href="{{ route('recharge-customer', ['id' => $user->id]) }}">
+                                                   <span class="label label-sm label-success"> Recharge</span>
                                                 </a>
 
-                                                @if($user_role == "admin") 
-                                                <a class="green" href="{{ route('edit-subadmin',['id' => $user->id]) }}">
-                                                    <i class="ace-icon fa fa-pencil bigger-130"></i>
-                                                </a>
-
-                                                <a class="red" href="#" data-toggle="modal" data-target="#confirmDelete_{{ $user->id }}" data-title="Delete User" data-message="Are you sure you want to delete this Sub admin ?">
-                                                    <i class="ace-icon fa fa-trash-o bigger-130"></i>
-                                                </a>
-                                                @endif
                                             </div>
 
                                             <div class="hidden-md hidden-lg">
@@ -163,28 +133,6 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td class="del_model">
-                                            <!-- Modal Dialog -->
-                                            <div class="modal fade" id="confirmDelete_{{ $user->id }}" role="dialog" aria-labelledby="confirmDeleteLabel" aria-hidden="true">
-                                              <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                  <div class="modal-header">
-                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                                    <h4 class="modal-title">Delete Sub-admin Parmanently</h4>
-                                                  </div>
-                                                  <div class="modal-body">
-                                                    <p>Are you sure you want to delete this Sub admin ?</p>
-                                                  </div>
-                                                  <div class="modal-footer">
-                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                                                    <a href="{{ route('delete-subadmin', ['id' => $user->id]) }}" class="btn btn-danger" id="confirm">Delete</a>
-                                                   
-                                                    
-                                                  </div>
-                                                </div>
-                                              </div>
-                                            </div>
-                                        </td>
                                         </tr>
                                     @endforeach
 
@@ -196,7 +144,123 @@
                     </div>
                 </div>
 
-                
+                <div id="modal-table" class="modal fade" tabindex="-1">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header no-padding">
+                                <div class="table-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                        <span class="white">&times;</span>
+                                    </button>
+                                    Results for "Latest Registered Domains
+                                </div>
+                            </div>
+
+                            <div class="modal-body no-padding">
+                                <table class="table table-striped table-bordered table-hover no-margin-bottom no-border-top">
+                                    <thead>
+                                        <tr>
+                                            <th>Domain</th>
+                                            <th>Price</th>
+                                            <th>Clicks</th>
+
+                                            <th>
+                                                <i class="ace-icon fa fa-clock-o bigger-110"></i>
+                                                Update
+                                            </th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <a href="#">ace.com</a>
+                                            </td>
+                                            <td>$45</td>
+                                            <td>3,330</td>
+                                            <td>Feb 12</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>
+                                                <a href="#">base.com</a>
+                                            </td>
+                                            <td>$35</td>
+                                            <td>2,595</td>
+                                            <td>Feb 18</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>
+                                                <a href="#">max.com</a>
+                                            </td>
+                                            <td>$60</td>
+                                            <td>4,400</td>
+                                            <td>Mar 11</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>
+                                                <a href="#">best.com</a>
+                                            </td>
+                                            <td>$75</td>
+                                            <td>6,500</td>
+                                            <td>Apr 03</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>
+                                                <a href="#">pro.com</a>
+                                            </td>
+                                            <td>$55</td>
+                                            <td>4,250</td>
+                                            <td>Jan 21</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                            </div>
+
+                                            <div class="modal-footer no-margin-top">
+                                                <button class="btn btn-sm btn-danger pull-left" data-dismiss="modal">
+                                                    <i class="ace-icon fa fa-times"></i>
+                                                    Close
+                                                </button>
+
+                                                <ul class="pagination pull-right no-margin">
+                                                    <li class="prev disabled">
+                                                        <a href="#">
+                                                            <i class="ace-icon fa fa-angle-double-left"></i>
+                                                        </a>
+                                                    </li>
+
+                                                    <li class="active">
+                                                        <a href="#">1</a>
+                                                    </li>
+
+                                                    <li>
+                                                        <a href="#">2</a>
+                                                    </li>
+
+                                                    <li>
+                                                        <a href="#">3</a>
+                                                    </li>
+
+                                                    <li class="next">
+                                                        <a href="#">
+                                                            <i class="ace-icon fa fa-angle-double-right"></i>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal-dialog -->
+                                </div>
+
+                                <!-- PAGE CONTENT ENDS -->
+                            </div><!-- /.col -->
+                        </div><!-- /.row -->
+                    </div><!-- /.page-content -->
+                </div>
 
             </div>
             <!-- /.container-fluid -->

@@ -233,3 +233,10 @@ ul.alert-dropdown {
   float: right;
   margin-top: 20px;
 }
+.table-bordered > tbody > tr > td.del_model{
+    border-bottom-width:0px;
+    border-top-width:0px;
+    border-right-width:0px;    
+    border-left-width:0px;    
+    padding:0px;    
+}

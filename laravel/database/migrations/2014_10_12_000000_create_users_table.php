@@ -19,6 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->enum('role',['admin','general','sub-admin','master-distributer','super-distributer','distributer','retailer'])->default('general');
+            $table->tinyInteger('is_active')->nullable()->default('1');
             $table->rememberToken();
             $table->timestamps();
         });

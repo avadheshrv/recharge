@@ -29,6 +29,20 @@
             <div class="page-content">
                 <div class="row">
                     <div class="col-xs-12">
+                         @if(Session::has('message'))
+                            @if(Session::has('status'))
+                            <div class="alert alert-success fade in" style="margin-top:18px;">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
+                            {!! Session::get('message') !!}
+                            </div>
+                            @else
+
+                            <div class="alert alert-danger fade in">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
+                                {!! Session::get('message') !!}
+                            </div>
+                            @endif
+                        @endif
                          <div class="left_head">
                             <h3 class="header smaller lighter blue">Distributers</h3>
                         </div>
@@ -89,7 +103,11 @@
                                             <td class="hidden-480">{{ $user->role }}</td>
                                             <td>{{ $user->updated_at }}</td>
                                              <td class="hidden-480">
-                                                <span class="label label-sm label-warning">Expiring</span>
+                                                 @if($user->is_active == 1) 
+                                                    <span class="label label-sm label-success">Active</span>
+                                                @else
+                                                    <span class="label label-sm label-warning">Deactive</span>
+                                                @endif
                                             </td>
 
                                             <td>
@@ -98,11 +116,11 @@
                                                     <i class="ace-icon fa fa-search-plus bigger-130"></i>
                                                 </a>
                                                  @if($user_role == "admin" || $user_role == "sub-admin"  || $user_role == "master-distributer" || $user_role == "super-distributer") 
-                                                <a class="green" href="#">
+                                                <a class="green" href="{{ route('edit-distributer',['id'=> $user->id] ) }}">
                                                     <i class="ace-icon fa fa-pencil bigger-130"></i>
                                                 </a>
 
-                                                <a class="red" href="#">
+                                                <a class="red" href="#" data-toggle="modal" data-target="#confirmDelete_{{ $user->id }}" data-title="Delete User" data-message="Are you sure you want to delete this Super Distributer ?">
                                                     <i class="ace-icon fa fa-trash-o bigger-130"></i>
                                                 </a>
                                                 @endif
@@ -140,6 +158,28 @@
                                                         </li>
                                                     </ul>
                                                 </div>
+                                            </div>
+                                        </td>
+                                        <td class="del_model">
+                                            <!-- Modal Dialog -->
+                                            <div class="modal fade" id="confirmDelete_{{ $user->id }}" role="dialog" aria-labelledby="confirmDeleteLabel" aria-hidden="true">
+                                              <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                  <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                    <h4 class="modal-title">Delete distributer Parmanently</h4>
+                                                  </div>
+                                                  <div class="modal-body">
+                                                    <p>Are you sure you want to delete this Distributer ?</p>
+                                                  </div>
+                                                  <div class="modal-footer">
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                                    <a href="{{ route('delete-distributer', ['id' => $user->id]) }}" class="btn btn-danger" id="confirm">Delete</a>
+                                                   
+                                                    
+                                                  </div>
+                                                </div>
+                                              </div>
                                             </div>
                                         </td>
                                         </tr>

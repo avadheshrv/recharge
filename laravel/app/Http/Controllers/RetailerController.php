@@ -83,5 +83,69 @@ class RetailerController extends Controller
         }
     }
 
+    /****** Delete Retailer *********/
+    public function DeleteRetailer($id, Request $request)
+    {
+        $user = User::find($id); 
+        $users = $user->delete();
+        if($users){
+            return redirect()->route('retailer')->with('message', 'Congratulations! Retailer has been deleted succesfully')->with('status','1');       
+        }
+        else{
+            return redirect()->route('retailer')->with('message', 'Opps! There is some issue while deleting Retailer'); 
+        }
+        
+    }
+
+     /**********Edit REtailer *******/
+    public function EditRetailer($id, Request $request)
+    {
+        $retailer = User::find($id);
+        $flash_data = $request->session()->get('flash_data');
+        return view('retailer.edit-retailer', ['retailer' => $retailer, 'flash_data' => $flash_data]);  
+    }
+
+    /**********Update REtailer *******/
+    public function UpdateRetailer($id, Request $request)
+    {
+        $retailer = User::find($id);
+        if($request->password){
+            $retailer->name = $request->name;
+            $retailer->email = $request->email;
+            $retailer->is_active = $request->is_active;
+            $retailer->password = bcrypt($request->password);
+            $validator = Validator::make($request->all(), [
+                        'name' => 'required|max:255',
+                        'email' => 'required|email|max:255|unique:users,email,'.$id,
+                        'password' => 'required|min:6|confirmed',
+                        'password' => 'required|min:6|confirmed'
+            ]);
+        } else {
+            $retailer->name = $request->name;
+            $retailer->email = $request->email;
+            $retailer->is_active = $request->is_active;
+            $validator = Validator::make($request->all(), [
+                        'name' => 'required|max:255',
+                        'email' => 'required|email|max:255|unique:users,email,'.$id,
+            ]);
+        }
+        
+        if ($validator->fails()) {
+            return redirect()->route('edit-retailer', ['id' => $retailer->id])->withErrors($validator)->withInput();
+        }
+        
+        $flash_data = [];
+        if($retailer->save()){
+            $flash_data['status'] = 1;
+            $flash_data['message'] = 'Retailer was updated Successfully';
+            
+        } else{
+            $flash_data['status'] = 0;
+            $flash_data['message'] = 'Oops! Error Occur while updating Retailer';
+            
+        }
+        $request->session()->flash('flash_data', $flash_data);
+        return redirect()->route('edit-retailer', ['id' => $id]); 
+    }
 
 }
