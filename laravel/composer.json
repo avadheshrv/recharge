@@ -7,8 +7,12 @@
     "require": {
         "php": ">=5.6.4",
         "laravel/framework": "5.3.*",
+<<<<<<< HEAD
         "laravelcollective/html": "~5.0",
         "illuminate/html": "5.0.*"
+=======
+        "doctrine/dbal": "^2.5"
+>>>>>>> 37dfb9ce8fd0a0062b18851703e55b6eda8404c2
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
